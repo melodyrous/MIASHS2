@@ -1,7 +1,71 @@
 <!DOCTYPE html>
-<head>
+<html>
+    <head>
+        <title>TP1 Graphe</title>
+        <meta charset="UTF-8">
+        <script	src="http://d3js.org/d3.v6.min.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            const w = 800;
+            const h = 300;
 
-</head>
-<body>
+            var b = d3.select("body");
+            var svg = b.append("svg");
+            svg.attr("width", w);
+            svg.attr("height", h);
+
+            function rand(mi, ma){
+                return Math.random() * (ma-5) + (mi+5)
+                };
+
+            d3.json("miserables.json").then(function(graph){
+                var nodes = svg.selectAll(".node")
+                    .data(graph.nodes)
+                    .enter().append("circle");
+                nodes.attr("stroke", "#aaaaaa")
+                    .attr("r", 5)
+                    .attr("id", function(d) { return "node"+d.id; } )
+                    .attr("cx", function(d) { return rand(1, w); } )
+                    .attr("cy", function(d) { return rand(1, h); } )
+
+                var links = svg.selectAll(".links")
+                    .data(graph.links)
+                    .enter().append("line");
+
+                
+                    
+                links.attr(
+                        "x1",
+                        function (d){
+                            return d3.select("#node"+d.source).attr("cx");
+                        })
+                        .attr(
+                        "y1",
+                        function(d){
+                            return d3.select("#node"+d.source).attr("cy");
+                        })
+                        .attr(
+                            "x2",
+                            function (d) {
+                                return d3.select("#node"+d.target).attr("cx");
+                            }
+                            )
+                        .attr(
+                            "y2",
+                            function (d) {
+                                return d3.select("#node"+d.target).attr("cy");
+                            }
+                        )
+                        .attr(
+                            "stroke","grey"
+                        )
+                        .attr("stroke-width",1)
+                        console.log(links)
+           
+
+            });
+        </script>
     
-</body>
+    </body>
+</html>
