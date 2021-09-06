@@ -20,20 +20,23 @@
                 };
 
             d3.json("miserables.json").then(function(graph){
+
+                
+                var links = svg.selectAll(".links")
+                    .data(graph.links)
+                    .enter().append("line");
+
                 var nodes = svg.selectAll(".node")
                     .data(graph.nodes)
                     .enter().append("circle");
+
+
                 nodes.attr("stroke", "#aaaaaa")
                     .attr("r", 5)
                     .attr("id", function(d) { return "node"+d.id; } )
                     .attr("cx", function(d) { return rand(1, w); } )
                     .attr("cy", function(d) { return rand(1, h); } )
 
-                var links = svg.selectAll(".links")
-                    .data(graph.links)
-                    .enter().append("line");
-
-                
                     
                 links.attr(
                         "x1",
@@ -48,20 +51,14 @@
                         .attr(
                             "x2",
                             function (d) {
-                                return d3.select("#node"+d.target).attr("cx");
-                            }
-                            )
+                                return d3.select("#node"+d.target).attr("cx");})
                         .attr(
                             "y2",
                             function (d) {
                                 return d3.select("#node"+d.target).attr("cy");
-                            }
-                        )
-                        .attr(
-                            "stroke","grey"
-                        )
+                            })
+                        .attr("stroke","grey")
                         .attr("stroke-width",1)
-                        console.log(links)
            
 
             });
