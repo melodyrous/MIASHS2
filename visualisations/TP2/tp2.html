@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TP2</title>
+        <meta charset="UTF-8">
+        <script src="http://d3js.org/d3.v6.min.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+        
+        const w = 500;
+        const h = 500;
+        const r = Math.min(w,h)/2
+        
+        var b = d3.select("body");
+        var svg = b.append("svg")
+            .attr("width", w)
+            .attr("height", h);
+
+        var g = svg.append("g")
+            .attr('transform', 'translate(' + w/2 + ',' + h/2 +')');
+
+        d3.json("flare.json").then(function (graph){
+            var partition = d3.partition()
+                .size([2* Math.PI, r]);
+
+            var root = d3.hierarchy(graph)
+                .sum(function (d) {return d.size});
+            
+            partition(root);
+
+            var arc = d3.arc()
+                .startAngle(function (d) {return d.x0})
+                .endAngle(function (d) {return d.x1})
+                .innerRadius(function (d) {return d.y0})
+                .outerRadius( function (d) {return d.y1});
+          
+
+            var arcs = g.selectAll('.arcs')
+                .data(root.descendants())
+                .enter().append('path');
+
+            var color = d3.scaleOrdinal(d3.schemeCategory10);
+            
+            console.log(root)
+
+            arcs.attr('d', arc)
+                .attr('stroke',"white")
+                .attr('fill', function(d){return color(d.depth)})
+                .append('title').text(function(d){return d.data.name});
+
+        })
+
+        var z = d3.zoom()
+            z.on("zoom", function ({ transform }) {
+                g.attr("transform", transform);
+            });
+            svg.call(z);
+        </script>
+    </body>
+</html>
