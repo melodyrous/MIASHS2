@@ -75,6 +75,31 @@ function initCloud(svg, w, h, d, x, y, c){
 		.attr("r", 4)
 		.attr("cx", function(d) { return 25+scaleXCloud(d[attXCloud]); } )
 		.attr("cy", function(d) { return 25+scaleYCloud(d[attYCloud]); } );	
+
+		var b = d3.brush();
+		b.on("brush", function({selection}){
+			
+			var selected = (c) => {
+				if (selection[0][0] <= c.attr("cx") &&
+			c.attr("cx") <= selection[1][0] &&
+			selection[0][1] <= c.attr("cy") &&
+			c.attr("cy") <= selection[1][1]){
+				return true
+			}else{
+				return false
+			};}
+
+			items.attr("stroke", function(d) {
+				var c = d3.select(this);
+				if (selected(c)) { 
+				 return "magenta";
+				 }
+				 else {
+				 return "#aaaaaa";
+				 }
+				}); 
+		});
+		svgCloud.call(b);
 };
 
 function updateCloudX(att){
