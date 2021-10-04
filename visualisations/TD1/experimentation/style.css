@@ -1,0 +1,52 @@
+#global {
+	overflow:auto;
+	margin-left: auto;
+	margin-right: auto;
+	width:720px;
+	font-family: Arial;
+	font-size: 13px;
+}
+
+#rapport {
+	float:left;
+	width:200px;
+	height:300px;
+	border:0.6px solid gray;
+}
+
+#vis {
+	text-align: center;
+	overflow:auto;
+	border:0.6px solid gray;
+	width:500px;
+	height:300px;
+}
+
+h1 {
+	text-align: center;
+	font-size: 16px;
+	padding-top: 10px;
+}
+
+#dRes {
+	display: None;
+	text-align: left;
+	padding: 0px;
+	margin: 5px;
+}
+
+strong {
+	margin-left: 5px;
+}
+
+p {
+	padding: 0px;
+	margin: 5px;
+	margin-top: 10px;
+}
+
+ul {
+	padding-top: 0px;
+	margin-top: 5px;
+}
+
